@@ -1,0 +1,52 @@
+.rating-container {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: start;
+    gap: 1rem;
+}
+
+.rating-input {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.scale {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: .25rem;
+    font-family: monospace;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.scale:disabled {
+    cursor: not-allowed;
+}
+
+.scale::after {
+    content: '[ ]';
+    font-size: inherit;
+    color: lightblue;
+}
+
+.scale-focused::after {
+    content: '[❖]';
+    color: lightgreen;
+}
+
+.scale-filled::after {
+    content: '[❖]';
+    color: yellow;
+}
+
+input[type="radio"] {
+    appearance: none;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}

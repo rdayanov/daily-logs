@@ -1,0 +1,175 @@
+import { KeyboardEvent, FocusEvent, useRef, useState, ReactNode } from 'react'
+
+import styles from './styles.module.pcss'
+
+interface RateProps {
+  value: number;
+  name: string;
+  onChange: (value: number) => void;
+  disabled?: boolean;
+  max?: number;
+  required?: boolean;
+  children: ReactNode;
+}
+
+export const Rate = ({ value, name, onChange, disabled = false, max = 3, required = false, children }: RateProps) => {
+  const controlId = `rate-${ name }`
+
+  const [hover, setHover] = useState(-1)
+  const [focused, setFocused] = useState(-1)
+  const ratingRefs = useRef<HTMLInputElement[]>([])
+
+  const [parentTabIndex, setParentTabIndex] = useState(0)
+  const parentRef = useRef<HTMLDivElement | null>(null)
+
+  const onClick = (value: number) => {
+    if (!disabled) {
+      onChange(value)
+    }
+  }
+
+  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>, index: number) => {
+    if (disabled) return
+
+    switch (e.key) {
+      case 'ArrowRight':
+      case 'ArrowUp': {
+        e.preventDefault()
+        const nextIndex = Math.min(index + 1, max - 1)
+        focusEl(nextIndex)
+        break
+      }
+
+      case 'ArrowLeft':
+      case 'ArrowDown': {
+        e.preventDefault()
+        const prevIndex = Math.max(index - 1, 0)
+        focusEl(prevIndex)
+        break
+      }
+
+      case 'Home':
+        e.preventDefault()
+        focusEl(0)
+        break
+      case 'End':
+        e.preventDefault()
+        focusEl(max - 1)
+        break
+      case 'Enter':
+      case ' ':
+        e.preventDefault()
+        onClick(index + 1)
+        break
+
+      default:
+        if (/\d/.test(e.key)) {
+          e.preventDefault()
+          const numRating = parseInt(e.key)
+          if (numRating <= max) {
+            onClick(numRating)
+            focusEl(numRating - 1)
+          }
+          break
+        }
+
+    }
+  }
+
+  const onMouseEnter = (rate: number) => {
+    if (!disabled) {
+      setHover(rate)
+    }
+  }
+
+  const onFocus = (rate: number) => {
+    if (!disabled) {
+      setFocused(rate)
+    }
+  }
+
+  const focusEl = (rate: number) => {
+    if (disabled) return
+
+    onFocus(rate)
+    ratingRefs.current[rate]?.focus()
+  }
+
+  const onParentFocus = (e: FocusEvent<HTMLDivElement>) => {
+    const parentEl = parentRef.current
+    if (e.target === parentEl) {
+      focusEl(0)
+      setParentTabIndex(-1)
+    }
+  }
+
+  const onBlur = () => {
+    setFocused(-1)
+    setParentTabIndex(0)
+  }
+
+  const onMouseLeave = () => setHover(-1)
+
+  const getTabIndex = (index: number) => {
+    if (focused === index) {
+      return 0
+    }
+
+    if (focused === -1 && !index) {
+      return 0
+    }
+
+    return -1
+  }
+
+  return (
+    <div className={ styles.ratingContainer }>
+      {/* eslint-disable-next-line jsx-a11y/aria-activedescendant-has-tabindex */ }
+      <div className={ styles.ratingInput }
+           id={ controlId }
+           role="radiogroup"
+           aria-required={ required }
+           onMouseLeave={ onMouseLeave }
+           onFocus={ onParentFocus }
+           ref={ el => (parentRef.current = el) }
+           tabIndex={ parentTabIndex }
+           aria-activedescendant={ `${ controlId }-${ focused }` }>
+        {
+          ([...new Array(max)]).map((_, index) => {
+            const isFilled = index < value
+            const isFocused = focused >= index || hover > index
+
+            const rateValue = index + 1
+            const isSelected = value === rateValue
+
+            return (
+              <input key={ index }
+                     ref={ el => el && (ratingRefs.current[index] = el) }
+                     className={ `${ styles.scale } ${ isFocused ? styles.scaleFocused : isFilled ? styles.scaleFilled : '' }` }
+                     type="radio"
+                     value={ rateValue }
+                     id={ `${ controlId }-rateValue` }
+                     checked={ isSelected }
+                     name={ name }
+                     tabIndex={ getTabIndex(index) }
+                     aria-checked={ isSelected }
+                     aria-label={ `${ rateValue }${ isSelected ? ', selected' : '' }` }
+                     aria-disabled={ disabled }
+                     disabled={ disabled }
+                     onClick={ () => onClick(rateValue) }
+                     onChange={ () => onClick(rateValue) }
+                     onMouseEnter={ () => onMouseEnter(rateValue) }
+                     onKeyDown={ (e) => onKeyDown(e, index) }
+                     onFocus={ () => onFocus(index) }
+                     onBlur={ onBlur }
+              />
+            )
+          })
+        }
+      </div>
+      <label htmlFor={ controlId }>
+        { children || name }
+      </label>
+    </div>
+  )
+}
