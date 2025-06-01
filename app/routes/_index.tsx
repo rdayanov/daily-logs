@@ -2,6 +2,7 @@ import type { MetaFunction, ActionFunctionArgs } from '@remix-run/node'
 import { Rate } from '@dl/shared/inputs/rate'
 import { Form } from '@remix-run/react'
 import React from 'react'
+import { Timespan } from '~/shared/inputs/timespan'
 
 import styles from '../styles/styles.module.pcss'
 
@@ -25,6 +26,12 @@ export default function Index() {
         <>Rating</>
       </Rate>
 
+      <Timespan name="work">
+        <>Work</>
+        <>Start</>
+        <>End</>
+      </Timespan>
+
       <button>Send</button>
     </Form>
   )
@@ -32,7 +39,6 @@ export default function Index() {
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData()
-  const rate = formData.get('rate')
-  console.log(rate)
+  console.log(formData)
   return null
 }
