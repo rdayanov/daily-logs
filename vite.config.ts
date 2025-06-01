@@ -23,4 +23,9 @@ export default defineConfig({
     tsconfigPaths(),
     devtoolsJson(),
   ],
+  css: {
+    modules: {
+      localsConvention: 'camelCase',
+    },
+  },
 })
