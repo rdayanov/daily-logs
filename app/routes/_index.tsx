@@ -1,15 +1,16 @@
-import type { MetaFunction, ActionFunctionArgs } from '@remix-run/node'
 import { Rate } from '@dl/shared/inputs/rate'
+import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node'
 import { Form } from '@remix-run/react'
 import React from 'react'
+import { Markdown } from '~/shared/inputs/markdown'
 import { Timespan } from '~/shared/inputs/timespan'
 
 import styles from '../styles/styles.module.pcss'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'New Remix App' },
-    { name: 'description', content: 'Welcome to Remix!' },
+    { title: 'Daily Logs' },
+    { name: 'description', content: 'Look at you!' },
   ]
 }
 
@@ -31,6 +32,8 @@ export default function Index() {
         <>Start</>
         <>End</>
       </Timespan>
+
+      <Markdown name="summary">Summary</Markdown>
 
       <button>Send</button>
     </Form>
