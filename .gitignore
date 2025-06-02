@@ -366,3 +366,5 @@ fabric.properties
 # remix-run
 /.cache
 /build
+
+/app/generated/prisma

@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider               = "prisma-client"
+  output                 = "../app/generated/prisma"
+  runtime                = "node"
+  moduleFormat           = "esm"
+  generatedFileExtension = "ts"
+  importFileExtension    = "ts"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum FieldType {
+  RATE
+  TEXTBOX
+  TIMESPAN
+  DURATION
+  MEDS
+}
+
+model Log {
+  id     Int      @id @default(autoincrement())
+  userId Int
+  date   DateTime
+  fields Field[]
+}
+
+model Field {
+  id      String  @id @default(cuid())
+  ratable Boolean
+  rate    Int?
+  value   String
+  Log     Log     @relation(fields: [logId], references: [id])
+  logId   Int
+}

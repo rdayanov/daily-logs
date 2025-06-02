@@ -8,10 +8,12 @@
     "dev": "remix vite:dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/server/index.js",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "db:init": "npx prisma init --datasource-provider sqlite --output ./.prisma"
   },
   "dependencies": {
     "@codemirror/lang-markdown": "^6.3.2",
+    "@prisma/client": "^6.8.2",
     "@remix-run/node": "^2.16.8",
     "@remix-run/react": "^2.16.8",
     "@remix-run/serve": "^2.16.8",
@@ -34,6 +36,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "postcss": "^8.4.38",
     "postcss-preset-env": "^10.2.0",
+    "prisma": "^6.8.2",
     "stylelint": "^16.20.0",
     "stylelint-config-standard": "^38.0.0",
     "typescript": "^5.1.6",
