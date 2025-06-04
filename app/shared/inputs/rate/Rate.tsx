@@ -1,4 +1,4 @@
-import { FocusEvent, KeyboardEvent, ReactNode, useRef, useState } from 'react'
+import { FocusEvent, KeyboardEvent, MouseEvent, ReactNode, useRef, useState } from 'react'
 import { FieldType } from '~/generated/prisma/enums'
 
 import styles from './styles.module.pcss'
@@ -123,6 +123,12 @@ export const Rate = ({ value, name, onChange, disabled = false, max = 3, require
     return -1
   }
 
+  const onResetClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onClick(-1)
+  }
+
   return (
     <>
       <input type="hidden"
@@ -134,6 +140,7 @@ export const Rate = ({ value, name, onChange, disabled = false, max = 3, require
       <div className={ styles.ratingContainer }>
         {/* eslint-disable-next-line jsx-a11y/aria-activedescendant-has-tabindex */ }
         <div className={ styles.ratingInput }
+             style={ { '--cols-amount': `${ max + 1 }` } }
              id={ controlId }
              role="radiogroup"
              aria-required={ required }
@@ -173,6 +180,15 @@ export const Rate = ({ value, name, onChange, disabled = false, max = 3, require
                 />
               )
             })
+          }
+          { value > 0 ?
+            <button type="reset"
+                    className={ `${ styles.reset }` }
+                    disabled={ disabled }
+                    onClick={ onResetClick }>X
+            </button>
+            :
+            <></>
           }
         </div>
         <label htmlFor={ controlId }>

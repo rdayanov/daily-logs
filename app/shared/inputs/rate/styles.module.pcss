@@ -7,7 +7,10 @@
 }
 
 .rating-input {
-    display: flex;
+    --cols-amount: var(--cols-amount, 4);
+
+    display: grid;
+    grid-template-columns: repeat(var(--cols-amount), 1fr);
     align-items: center;
     gap: .5rem;
 }
@@ -49,4 +52,19 @@ input[type="radio"] {
     border: none;
     padding: 0;
     margin: 0;
+}
+
+.reset {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: lightpink;
+}
+
+.reset:hover {
+    color: red;
+}
+
+.reset:disabled {
+    display: none;
 }
