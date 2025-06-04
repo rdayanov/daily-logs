@@ -1,5 +1,6 @@
+import { indentWithTab } from '@codemirror/commands'
 import { markdown } from '@codemirror/lang-markdown'
-import { EditorView } from '@codemirror/view'
+import { EditorView, keymap } from '@codemirror/view'
 import { basicSetup } from 'codemirror'
 import { ReactNode, useEffect, useRef, useState } from 'react'
 import { FieldType } from '~/generated/prisma/enums'
@@ -59,6 +60,7 @@ export const Markdown = ({ content = instructions, name, onChange, children }: M
           },
           '.cm-scroller': { overflow: 'auto' },
         }),
+        keymap.of([indentWithTab]),
       ],
     })
   }
