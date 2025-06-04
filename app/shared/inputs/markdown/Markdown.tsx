@@ -2,6 +2,7 @@ import { markdown } from '@codemirror/lang-markdown'
 import { EditorView } from '@codemirror/view'
 import { basicSetup } from 'codemirror'
 import { ReactNode, useEffect, useRef, useState } from 'react'
+import { FieldType } from '~/generated/prisma/enums'
 
 import instructions from './instructions'
 
@@ -64,13 +65,19 @@ export const Markdown = ({ content = instructions, name, onChange, children }: M
 
   return (
     <>
+      <input type="hidden"
+             name={ `id` }
+             value={ name }/>
+      <input type="hidden"
+             name={ `type` }
+             value={ FieldType.TEXTBOX }/>
       <label id={ `${ name }-textbox` }>{ children }</label>
       <div className={ styles.textbox }
            role="textbox"
            ref={ el => textbox.current = el }
            aria-labelledby={ `${ name }-textbox` }></div>
       <input type="hidden"
-             name={ name }
+             name={ `value` }
              value={ doc }/>
     </>
 

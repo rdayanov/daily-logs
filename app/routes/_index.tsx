@@ -1,11 +1,5 @@
-import { Rate } from '@dl/shared/inputs/rate'
-import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node'
-import { Form } from '@remix-run/react'
-import React from 'react'
-import { Markdown } from '~/shared/inputs/markdown'
-import { Timespan } from '~/shared/inputs/timespan'
-
-import styles from '../styles/styles.module.pcss'
+import type { MetaFunction } from '@remix-run/node'
+import { NavLink, Outlet } from '@remix-run/react'
 
 export const meta: MetaFunction = () => {
   return [
@@ -15,33 +9,17 @@ export const meta: MetaFunction = () => {
 }
 
 export default function Index() {
-  const [value, setValue] = React.useState(0)
-
   return (
-    <Form className={ styles.form }
-          method="POST"
-          navigate={ false }>
-      <Rate name="rate"
-            value={ value }
-            onChange={ setValue }>
-        <>Rating</>
-      </Rate>
-
-      <Timespan name="work">
-        <>Work</>
-        <>Start</>
-        <>End</>
-      </Timespan>
-
-      <Markdown name="summary">Summary</Markdown>
-
-      <button>Send</button>
-    </Form>
+    <section>
+      <header>
+        <nav>
+          <NavLink to="/template/new">Create Template</NavLink>
+        </nav>
+      </header>
+      <main>
+        <Outlet/>
+      </main>
+    </section>
   )
 }
 
-export async function action({ request }: ActionFunctionArgs) {
-  const formData = await request.formData()
-  console.log(formData)
-  return null
-}

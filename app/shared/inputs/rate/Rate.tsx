@@ -1,4 +1,5 @@
-import { KeyboardEvent, FocusEvent, useRef, useState, ReactNode } from 'react'
+import { FocusEvent, KeyboardEvent, ReactNode, useRef, useState } from 'react'
+import { FieldType } from '~/generated/prisma/enums'
 
 import styles from './styles.module.pcss'
 
@@ -123,53 +124,61 @@ export const Rate = ({ value, name, onChange, disabled = false, max = 3, require
   }
 
   return (
-    <div className={ styles.ratingContainer }>
-      {/* eslint-disable-next-line jsx-a11y/aria-activedescendant-has-tabindex */ }
-      <div className={ styles.ratingInput }
-           id={ controlId }
-           role="radiogroup"
-           aria-required={ required }
-           onMouseLeave={ onMouseLeave }
-           onFocus={ onParentFocus }
-           ref={ el => (parentRef.current = el) }
-           tabIndex={ parentTabIndex }
-           aria-activedescendant={ `${ controlId }-${ focused }` }>
-        {
-          ([...new Array(max)]).map((_, index) => {
-            const isFilled = index < value
-            const isFocused = focused >= index || hover > index
+    <>
+      <input type="hidden"
+             name={ `id` }
+             value={ name }/>
+      <input type="hidden"
+             name={ `type` }
+             value={ FieldType.RATE }/>
+      <div className={ styles.ratingContainer }>
+        {/* eslint-disable-next-line jsx-a11y/aria-activedescendant-has-tabindex */ }
+        <div className={ styles.ratingInput }
+             id={ controlId }
+             role="radiogroup"
+             aria-required={ required }
+             onMouseLeave={ onMouseLeave }
+             onFocus={ onParentFocus }
+             ref={ el => (parentRef.current = el) }
+             tabIndex={ parentTabIndex }
+             aria-activedescendant={ `${ controlId }-${ focused }` }>
+          {
+            ([...new Array(max)]).map((_, index) => {
+              const isFilled = index < value
+              const isFocused = focused >= index || hover > index
 
-            const rateValue = index + 1
-            const isSelected = value === rateValue
+              const rateValue = index + 1
+              const isSelected = value === rateValue
 
-            return (
-              <input key={ index }
-                     ref={ el => el && (ratingRefs.current[index] = el) }
-                     className={ `${ styles.scale } ${ isFocused ? styles.scaleFocused : isFilled ? styles.scaleFilled : '' }` }
-                     type="radio"
-                     value={ rateValue }
-                     id={ `${ controlId }-rateValue` }
-                     checked={ isSelected }
-                     name={ name }
-                     tabIndex={ getTabIndex(index) }
-                     aria-checked={ isSelected }
-                     aria-label={ `${ rateValue }${ isSelected ? ', selected' : '' }` }
-                     aria-disabled={ disabled }
-                     disabled={ disabled }
-                     onClick={ () => onClick(rateValue) }
-                     onChange={ () => onClick(rateValue) }
-                     onMouseEnter={ () => onMouseEnter(rateValue) }
-                     onKeyDown={ (e) => onKeyDown(e, index) }
-                     onFocus={ () => onFocus(index) }
-                     onBlur={ onBlur }
-              />
-            )
-          })
-        }
+              return (
+                <input key={ index }
+                       ref={ el => el && (ratingRefs.current[index] = el) }
+                       className={ `${ styles.scale } ${ isFocused ? styles.scaleFocused : isFilled ? styles.scaleFilled : '' }` }
+                       type="radio"
+                       value={ rateValue }
+                       id={ `${ controlId }-rateValue` }
+                       checked={ isSelected }
+                       name={ `value` }
+                       tabIndex={ getTabIndex(index) }
+                       aria-checked={ isSelected }
+                       aria-label={ `${ rateValue }${ isSelected ? ', selected' : '' }` }
+                       aria-disabled={ disabled }
+                       disabled={ disabled }
+                       onClick={ () => onClick(rateValue) }
+                       onChange={ () => onClick(rateValue) }
+                       onMouseEnter={ () => onMouseEnter(rateValue) }
+                       onKeyDown={ (e) => onKeyDown(e, index) }
+                       onFocus={ () => onFocus(index) }
+                       onBlur={ onBlur }
+                />
+              )
+            })
+          }
+        </div>
+        <label htmlFor={ controlId }>
+          { children || name }
+        </label>
       </div>
-      <label htmlFor={ controlId }>
-        { children || name }
-      </label>
-    </div>
+    </>
   )
 }
