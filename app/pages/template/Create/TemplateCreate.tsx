@@ -2,11 +2,12 @@ import { Markdown } from '@dl/shared/inputs/markdown'
 import { Rate } from '@dl/shared/inputs/rate'
 import { Timespan } from '@dl/shared/inputs/timespan'
 import { Form } from '@remix-run/react'
-import React from 'react'
+import { useState } from 'react'
+import { FieldLabel } from './FieldLabel'
 import styles from './styles.module.pcss'
 
 export const TemplateCreatePage = () => {
-  const [value, setValue] = React.useState(0)
+  const [value, setValue] = useState(0)
 
   return (
     <Form className={ styles.form }
@@ -15,16 +16,18 @@ export const TemplateCreatePage = () => {
       <Rate name="rate"
             value={ value }
             onChange={ setValue }>
-        <>Rating</>
+        <FieldLabel name="label">Rating</FieldLabel>
       </Rate>
 
       <Timespan name="work">
-        <>Work</>
+        <FieldLabel name="label">Work</FieldLabel>
         <>Start</>
         <>End</>
       </Timespan>
 
-      <Markdown name="summary">Summary</Markdown>
+      <Markdown name="summary">
+        <FieldLabel name="label">Summary</FieldLabel>
+      </Markdown>
 
       <button>Send</button>
     </Form>

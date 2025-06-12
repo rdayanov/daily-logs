@@ -42,6 +42,11 @@ Send data to AI to align tests results with logs
 | **Lightweight** | true                                                | false                                          |
 | **Engine**      | express by default, customizable by defining server | express by default, customizable with adapters |
 
+### Design
+
+[Colour palette](https://yeun.github.io/open-color/)
+[Colour Ramp](https://ferdychristant.com/color-for-the-color-challenged-884c7aa04a56)
+
 ### Where to store data?
 
 1. bootstrap a server with db
