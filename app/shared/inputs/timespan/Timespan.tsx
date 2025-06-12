@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react'
 import { FieldType } from '~/generated/prisma/enums'
 
-import './styles.module.pcss'
+import styles from './styles.module.pcss'
 
 interface TimespanProps {
   name: string;
@@ -29,7 +29,7 @@ export const Timespan = ({ name, children }: TimespanProps) => {
       <input type="hidden"
              name={ `type` }
              value={ FieldType.TIMESPAN }/>
-      <fieldset>
+      <fieldset className={ styles.fieldset }>
         <legend>{ header }</legend>
         <label htmlFor={ `${ name }-start` }>
           { startLabel }:

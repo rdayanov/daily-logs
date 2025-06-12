@@ -1,14 +1,31 @@
-fieldset {
+.fieldset {
     display: grid;
-    grid-template-areas: 'legend legend' 'label input' 'label input';
+    grid-template-areas: 'legend legend' 'label-start input-start' 'label-end input-end';
     align-items: center;
     gap: 1rem;
     padding: 0;
     margin: 0;
     border: none;
-}
 
-legend {
-    margin: 0;
-    padding: 0;
+    legend {
+        margin: 0;
+        padding: 0;
+        grid-area: legend;
+    }
+
+    input:first-of-type {
+        grid-area: input-start;
+    }
+
+    input:last-of-type {
+        grid-area: input-end;
+    }
+
+    label:first-of-type {
+        grid-area: label-start;
+    }
+
+    label:last-of-type {
+        grid-area: label-end;
+    }
 }
