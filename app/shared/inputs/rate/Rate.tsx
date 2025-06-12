@@ -131,12 +131,6 @@ export const Rate = ({ value, name, onChange, disabled = false, max = 3, require
 
   return (
     <>
-      <input type="hidden"
-             name={ `id` }
-             value={ name }/>
-      <input type="hidden"
-             name={ `type` }
-             value={ FieldType.RATE }/>
       <div className={ styles.ratingContainer }>
         {/* eslint-disable-next-line jsx-a11y/aria-activedescendant-has-tabindex */ }
         <div className={ styles.ratingInput }
