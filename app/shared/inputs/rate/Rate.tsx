@@ -1,20 +1,34 @@
-import { FocusEvent, KeyboardEvent, MouseEvent, ReactNode, useRef, useState } from 'react'
-import { FieldType } from '~/generated/prisma/enums'
+import { FocusEvent, KeyboardEvent, MouseEvent, ReactNode, useEffect, useRef, useState } from 'react'
 
 import styles from './styles.module.pcss'
 
 interface RateProps {
-  value: number;
+  initialValue?: number;
   name: string;
-  onChange: (value: number) => void;
+  onChange?: (value: number) => void;
   disabled?: boolean;
   max?: number;
   required?: boolean;
-  children: ReactNode;
+  children?: ReactNode;
+  hideLabel?: boolean;
 }
 
-export const Rate = ({ value, name, onChange, disabled = false, max = 3, required = false, children }: RateProps) => {
+export const Rate = ({
+                       initialValue = 0,
+                       name,
+                       onChange,
+                       disabled = false,
+                       max = 3,
+                       required = false,
+                       children,
+                       hideLabel,
+                     }: RateProps) => {
   const controlId = `rate-${ name }`
+
+  const [value, setValue] = useState(initialValue)
+  useEffect(() => {
+    onChange && onChange(value)
+  }, [onChange, value])
 
   const [hover, setHover] = useState(-1)
   const [focused, setFocused] = useState(-1)
@@ -25,7 +39,7 @@ export const Rate = ({ value, name, onChange, disabled = false, max = 3, require
 
   const onClick = (value: number) => {
     if (!disabled) {
-      onChange(value)
+      setValue(value)
     }
   }
 
@@ -185,9 +199,13 @@ export const Rate = ({ value, name, onChange, disabled = false, max = 3, require
             <></>
           }
         </div>
-        <label htmlFor={ controlId }>
-          { children || name }
-        </label>
+        {
+          !hideLabel ?
+            <label htmlFor={ controlId }>
+              { children || name }
+            </label>
+            : <></>
+        }
       </div>
     </>
   )

@@ -7,10 +7,9 @@
 }
 
 .rating-input {
-    --cols-amount: var(--cols-amount, 4);
-
-    display: grid;
-    grid-template-columns: repeat(var(--cols-amount), 1fr);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
     align-items: center;
     gap: .5rem;
 }

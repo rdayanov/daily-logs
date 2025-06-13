@@ -4,7 +4,7 @@ import { Timespan } from '@dl/shared/inputs/timespan'
 import { Form } from '@remix-run/react'
 import { TemplateField } from '~/entities/fields'
 import { FieldType } from '~/generated/prisma/enums'
-import { FieldLabel } from './FieldLabel'
+import { FieldLabelWrapper } from './FieldLabelWrapper'
 import styles from './styles.module.pcss'
 
 export const TemplateCreatePage = () => {
@@ -14,13 +14,13 @@ export const TemplateCreatePage = () => {
           navigate={ false }>
       <TemplateField fieldType={ FieldType.RATE }>
         <Rate name="rate">
-          <FieldLabel name="label">Rating</FieldLabel>
+          <FieldLabelWrapper rateCompatible={ false }>Rating</FieldLabelWrapper>
         </Rate>
       </TemplateField>
 
       <TemplateField fieldType={ FieldType.TIMESPAN }>
         <Timespan name="work">
-          <FieldLabel name="label">Work</FieldLabel>
+          <FieldLabelWrapper rateCompatible={ true }>Work</FieldLabelWrapper>
           <>Start</>
           <>End</>
         </Timespan>
@@ -28,9 +28,7 @@ export const TemplateCreatePage = () => {
 
       <TemplateField fieldType={ FieldType.TEXTBOX }>
         <Markdown name="summary">
-          <div className={ styles.fieldLabelWrapper }>
-            <FieldLabel name="label">Summary</FieldLabel>
-          </div>
+          <FieldLabelWrapper rateCompatible={ false }>Summary</FieldLabelWrapper>
         </Markdown>
       </TemplateField>
 

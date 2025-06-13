@@ -43,7 +43,7 @@ export const Timespan = ({ name, children }: TimespanProps) => {
                onChange={ (ev) => setEnd(ev.target.value) }/>
       </fieldset>
       <input type="hidden"
-             name={ `value` }
+             name="value"
              value={ value }/>
     </>
   )

@@ -1,0 +1,1 @@
+export { FieldRatable } from './FieldRatable'
