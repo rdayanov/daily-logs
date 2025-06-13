@@ -14,7 +14,7 @@ interface RateProps {
 }
 
 export const Rate = ({
-                       initialValue = 0,
+                       initialValue = -1,
                        name,
                        onChange,
                        disabled = false,
@@ -148,7 +148,6 @@ export const Rate = ({
       <div className={ styles.ratingContainer }>
         {/* eslint-disable-next-line jsx-a11y/aria-activedescendant-has-tabindex */ }
         <div className={ styles.ratingInput }
-             style={ { '--cols-amount': `${ max + 1 }` } }
              id={ controlId }
              role="radiogroup"
              aria-required={ required }
@@ -157,6 +156,12 @@ export const Rate = ({
              ref={ el => (parentRef.current = el) }
              tabIndex={ parentTabIndex }
              aria-activedescendant={ `${ controlId }-${ focused }` }>
+          <input type="radio"
+                 value={ 0 }
+                 name={ `value` }
+                 checked={ value === -1 }
+                 className={ styles.ratingZero }
+                 readOnly={ true }/>
           {
             ([...new Array(max)]).map((_, index) => {
               const isFilled = index < value
