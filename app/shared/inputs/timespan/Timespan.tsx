@@ -5,12 +5,10 @@ import styles from './styles.module.pcss'
 interface TimespanProps {
   name: string;
   value?: `${ string };${ string }`;
-  children: [ReactNode, ReactNode, ReactNode];
+  children: ReactNode;
 }
 
 export const Timespan = ({ name, children }: TimespanProps) => {
-  const [header, startLabel, endLabel] = children
-
   const [start, setStart] = useState('')
   const [end, setEnd] = useState('')
 
@@ -23,9 +21,9 @@ export const Timespan = ({ name, children }: TimespanProps) => {
   return (
     <>
       <fieldset className={ styles.fieldset }>
-        <legend>{ header }</legend>
+        <legend>{ children }</legend>
         <label htmlFor={ `${ name }-start` }>
-          { startLabel }:
+          Start:
         </label>
 
         <input type="time"
@@ -34,7 +32,7 @@ export const Timespan = ({ name, children }: TimespanProps) => {
                onChange={ (ev) => setStart(ev.target.value) }/>
 
         <label htmlFor={ `${ name }-end` }>
-          { endLabel }:
+          End:
         </label>
 
         <input type="time"

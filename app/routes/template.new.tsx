@@ -31,6 +31,8 @@ export async function action({ request }: ActionFunctionArgs) {
       }
     })
 
+    console.log(fields)
+
     await prismaClient.templateField.createMany({
       data: fields,
     })
