@@ -7,7 +7,9 @@ interface FieldLabelProps {
   children: ReactNode;
 }
 
-export const FieldLabel = ({ name, children }: FieldLabelProps) => {
+const EMPTY_LABEL = /\S/
+
+export const FieldLabel = ({ name, children, onChange = noop }: FieldLabelProps) => {
   const input = useRef<HTMLInputElement | null>(null)
   const label = useRef<HTMLDivElement | null>(null)
 
@@ -17,7 +19,7 @@ export const FieldLabel = ({ name, children }: FieldLabelProps) => {
     if (input.current && label.current) {
       input.current.value = label.current.innerText
     }
-    setIsEmpty(!label.current?.innerText)
+    setIsEmpty(!!label.current?.innerText && !EMPTY_LABEL.test(label.current.innerText))
   }
 
   useEffect(() => {
