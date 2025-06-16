@@ -1,9 +1,17 @@
 .field-label-wrapper {
+    position: relative;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 0.5rem;
+}
+
+.field-drag-handle {
+    position: absolute;
+    left: -2rem;
+    font-size: 1.25rem;
+    cursor: pointer;
 }
 
 .field-label {

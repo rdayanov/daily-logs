@@ -1,10 +1,12 @@
 import { ReactNode, useEffect, useRef, useState } from 'react'
+import { noop } from '~/shared/cdk/noop'
 
 import styles from './styles.module.pcss'
 
 interface FieldLabelProps {
   name: string;
   children: ReactNode;
+  onChange?: (value: string) => void;
 }
 
 const EMPTY_LABEL = /\S/
@@ -18,6 +20,7 @@ export const FieldLabel = ({ name, children, onChange = noop }: FieldLabelProps)
   const onInput = () => {
     if (input.current && label.current) {
       input.current.value = label.current.innerText
+      onChange(input.current.value)
     }
     setIsEmpty(!!label.current?.innerText && !EMPTY_LABEL.test(label.current.innerText))
   }

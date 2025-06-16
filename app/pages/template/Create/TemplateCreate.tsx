@@ -5,6 +5,7 @@ import { Form } from '@remix-run/react'
 import { useState } from 'react'
 import { FieldProto, getFieldProto, TemplateField } from '~/entities/fields'
 import { FieldType } from '~/generated/prisma/enums'
+import dragAnDrop from '~/shared/cdk/drag-and-drop'
 import { AddField } from './AddField'
 import { FieldLabelWrapper } from './FieldLabelWrapper'
 import styles from './styles.module.pcss'
@@ -24,45 +25,59 @@ export const TemplateCreatePage = () => {
     }
   }
 
+  const templateFields = fields.map((field: FieldProto) => {
+    switch (field.type) {
+      case FieldType.RATE:
+        return (
+          <TemplateField fieldType={ FieldType.RATE }>
+            <Rate name="rate">
+              <FieldLabelWrapper rateCompatible={ field.rateCompatible }>{ field.defaultLabel }</FieldLabelWrapper>
+            </Rate>
+          </TemplateField>
+        )
+      case FieldType.TIMESPAN:
+        return (
+          <TemplateField fieldType={ FieldType.TIMESPAN }>
+            <Timespan name="work">
+              <FieldLabelWrapper rateCompatible={ field.rateCompatible }>{ field.defaultLabel }</FieldLabelWrapper>
+            </Timespan>
+          </TemplateField>
+        )
+      case FieldType.TEXTBOX:
+        return (
+          <TemplateField fieldType={ FieldType.TEXTBOX }>
+            <Markdown name="summary">
+              <FieldLabelWrapper rateCompatible={ field.rateCompatible }>{ field.defaultLabel }</FieldLabelWrapper>
+            </Markdown>
+          </TemplateField>
+        )
+      default:
+        return (<></>)
+    }
+  })
+
   return (
     <>
       <Form className={ styles.form }
             method="POST"
             navigate={ false }>
         {
-          fields.map((field: FieldProto, index: number) => {
-            switch (field.type) {
-              case FieldType.RATE:
-                return (
-                  <TemplateField fieldType={ FieldType.RATE }
-                                 key={ index }>
-                    <Rate name="rate">
-                      <FieldLabelWrapper rateCompatible={ field.rateCompatible }>{ field.defaultLabel }</FieldLabelWrapper>
-                    </Rate>
-                  </TemplateField>
-                )
-              case FieldType.TIMESPAN:
-                return (
-                  <TemplateField fieldType={ FieldType.TIMESPAN }
-                                 key={ index }>
-                    <Timespan name="work">
-                      <FieldLabelWrapper rateCompatible={ field.rateCompatible }>{ field.defaultLabel }</FieldLabelWrapper>
-                    </Timespan>
-                  </TemplateField>
-                )
-              case FieldType.TEXTBOX:
-                return (
-                  <TemplateField fieldType={ FieldType.TEXTBOX }
-                                 key={ index }>
-                    <Markdown name="summary">
-                      <FieldLabelWrapper rateCompatible={ field.rateCompatible }>{ field.defaultLabel }</FieldLabelWrapper>
-                    </Markdown>
-                  </TemplateField>
-                )
-              default:
-                return (<></>)
-            }
-          })
+          templateFields.map((field, id) => (
+            <div key={ id }>
+              <div onDragOver={ dragAnDrop.onDragOver }
+                   onDragEnter={ dragAnDrop.onDragEnter }
+                   onDrop={ dragAnDrop.onDrop }
+                   className={ styles.dragDropArea }></div>
+              <div
+                className={ styles.dragHandle }
+                draggable={ true }
+                onDragStart={ dragAnDrop.onDragStart }
+                onDragEnd={ dragAnDrop.onDragEnd }>
+                { field }
+              </div>
+              <div onDragOver={ dragAnDrop.onDragOver }></div>
+            </div>
+          ))
         }
 
         <AddField onFieldSelected={ addFieldToTemplate }/>
