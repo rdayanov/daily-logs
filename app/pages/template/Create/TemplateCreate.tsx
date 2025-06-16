@@ -2,35 +2,41 @@ import { Markdown } from '@dl/shared/inputs/markdown'
 import { Rate } from '@dl/shared/inputs/rate'
 import { Timespan } from '@dl/shared/inputs/timespan'
 import { Form } from '@remix-run/react'
-import { useState } from 'react'
+import { DragEvent, useReducer } from 'react'
 import { FieldProto, getFieldProto, TemplateField } from '~/entities/fields'
 import { FieldType } from '~/generated/prisma/enums'
-import dragAnDrop from '~/shared/cdk/drag-and-drop'
 import { AddField } from './AddField'
 import { FieldLabelWrapper } from './FieldLabelWrapper'
+import { reducer, TimespanField, toTemplateField } from './state'
 import styles from './styles.module.pcss'
 
+export const FIELD_DRAG_EVENT = 'text/daily-logs-drag'
 
 export const TemplateCreatePage = () => {
-  const [fields, updateFields] = useState(
-    [FieldType.RATE, FieldType.TIMESPAN, FieldType.TEXTBOX]
-      .map(f => getFieldProto(f))
-      .filter((f): f is FieldProto => !!f),
+  const [state, dispatch] = useReducer(
+    reducer,
+    [FieldType.RATE, FieldType.TIMESPAN, FieldType.TEXTBOX],
+    (fields) => fields.map(f => getFieldProto(f))
+      .filter((f): f is FieldProto => !!f)
+      .map(toTemplateField),
   )
 
   const addFieldToTemplate = (fieldType: FieldType) => {
-    const fieldProto = getFieldProto(fieldType)
-    if (fieldProto) {
-      updateFields([...fields, fieldProto])
-    }
+    dispatch({ type: 'add', fieldType })
   }
 
-  const templateFields = fields.map((field: FieldProto) => {
+  const onFieldChange = (value: string | number, index: number) => {
+    dispatch({ type: 'update', index, update: { value: typeof value === 'number' ? `${ value }` : value } })
+  }
+
+  const templateFields = state.map((field, index) => {
     switch (field.type) {
       case FieldType.RATE:
         return (
           <TemplateField fieldType={ FieldType.RATE }>
-            <Rate name="rate">
+            <Rate name="rate"
+                  value={ +field.value }
+                  onChange={ v => onFieldChange(v, index) }>
               <FieldLabelWrapper rateCompatible={ field.rateCompatible }>{ field.defaultLabel }</FieldLabelWrapper>
             </Rate>
           </TemplateField>
@@ -38,7 +44,9 @@ export const TemplateCreatePage = () => {
       case FieldType.TIMESPAN:
         return (
           <TemplateField fieldType={ FieldType.TIMESPAN }>
-            <Timespan name="work">
+            <Timespan name="work"
+                      value={ field.value as TimespanField['value'] }
+                      onChange={ v => onFieldChange(v, index) }>
               <FieldLabelWrapper rateCompatible={ field.rateCompatible }>{ field.defaultLabel }</FieldLabelWrapper>
             </Timespan>
           </TemplateField>
@@ -46,7 +54,9 @@ export const TemplateCreatePage = () => {
       case FieldType.TEXTBOX:
         return (
           <TemplateField fieldType={ FieldType.TEXTBOX }>
-            <Markdown name="summary">
+            <Markdown name="summary"
+                      content={ field.value }
+                      onChange={ v => onFieldChange(v, index) }>
               <FieldLabelWrapper rateCompatible={ field.rateCompatible }>{ field.defaultLabel }</FieldLabelWrapper>
             </Markdown>
           </TemplateField>
@@ -56,26 +66,52 @@ export const TemplateCreatePage = () => {
     }
   })
 
+  const onDragStart = (ev: DragEvent<HTMLDivElement>, from: number) => {
+    ev.dataTransfer.setData('text/plain', `${ from }`)
+    ev.dataTransfer.setData(FIELD_DRAG_EVENT, 'true')
+    ev.dataTransfer.effectAllowed = 'move'
+  }
+
+  const onDragEnter = (ev: DragEvent<HTMLDivElement>) => {
+    if (ev.dataTransfer.types.includes(FIELD_DRAG_EVENT)) {
+      ev.preventDefault()
+    }
+  }
+
+  const onDragOver = (ev: DragEvent<HTMLDivElement>) => {
+    if (ev.dataTransfer.types.includes(FIELD_DRAG_EVENT)) {
+      ev.dataTransfer.dropEffect = 'move'
+      ev.preventDefault()
+    }
+  }
+
+  const onDrop = (ev: DragEvent<HTMLDivElement>, insertAt: number) => {
+    const from = +ev.dataTransfer.getData('text/plain')
+    dispatch({ type: 'insert', from, insertAt })
+  }
+
   return (
     <>
       <Form className={ styles.form }
             method="POST"
             navigate={ false }>
         {
-          templateFields.map((field, id) => (
-            <div key={ id }>
-              <div onDragOver={ dragAnDrop.onDragOver }
-                   onDragEnter={ dragAnDrop.onDragEnter }
-                   onDrop={ dragAnDrop.onDrop }
+          templateFields.map((field, index) => (
+            <div key={ index }>
+              <div onDragOver={ onDragOver }
+                   onDragEnter={ onDragEnter }
+                   onDrop={ ev => onDrop(ev, index) }
                    className={ styles.dragDropArea }></div>
               <div
                 className={ styles.dragHandle }
                 draggable={ true }
-                onDragStart={ dragAnDrop.onDragStart }
-                onDragEnd={ dragAnDrop.onDragEnd }>
+                onDragStart={ ev => onDragStart(ev, index) }>
                 { field }
               </div>
-              <div onDragOver={ dragAnDrop.onDragOver }></div>
+              <div onDragOver={ onDragOver }
+                   onDragEnter={ onDragEnter }
+                   onDrop={ ev => onDrop(ev, index) }
+                   className={ styles.dragDropArea }></div>
             </div>
           ))
         }

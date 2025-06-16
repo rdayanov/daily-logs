@@ -1,22 +1,24 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode } from 'react'
 
 import styles from './styles.module.pcss'
 
 interface TimespanProps {
   name: string;
-  value?: `${ string };${ string }`;
+  value: `${ string };${ string }`;
+  onChange: (value: string) => void;
   children: ReactNode;
 }
 
-export const Timespan = ({ name, children }: TimespanProps) => {
-  const [start, setStart] = useState('')
-  const [end, setEnd] = useState('')
+export const Timespan = ({ name, children, value, onChange }: TimespanProps) => {
+  const [start, end] = value.split(';')
 
-  const [value, setValue] = useState('')
+  const setStart = (start: string) => {
+    onChange(`${ start };${ end }`)
+  }
 
-  useEffect(() => {
-    setValue(`${ start };${ end }`)
-  }, [start, end])
+  const setEnd = (end: string) => {
+    onChange(`${ start };${ end }`)
+  }
 
   return (
     <>

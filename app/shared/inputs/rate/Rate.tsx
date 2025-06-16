@@ -1,11 +1,11 @@
-import { FocusEvent, KeyboardEvent, MouseEvent, ReactNode, useEffect, useRef, useState } from 'react'
+import { FocusEvent, KeyboardEvent, MouseEvent, ReactNode, useRef, useState } from 'react'
 
 import styles from './styles.module.pcss'
 
 interface RateProps {
-  initialValue?: number;
+  value: number;
   name: string;
-  onChange?: (value: number) => void;
+  onChange: (value: number) => void;
   disabled?: boolean;
   max?: number;
   required?: boolean;
@@ -14,7 +14,7 @@ interface RateProps {
 }
 
 export const Rate = ({
-                       initialValue = -1,
+                       value = -1,
                        name,
                        onChange,
                        disabled = false,
@@ -25,11 +25,6 @@ export const Rate = ({
                      }: RateProps) => {
   const controlId = `rate-${ name }`
 
-  const [value, setValue] = useState(initialValue)
-  useEffect(() => {
-    onChange && onChange(value)
-  }, [onChange, value])
-
   const [hover, setHover] = useState(-1)
   const [focused, setFocused] = useState(-1)
   const ratingRefs = useRef<HTMLInputElement[]>([])
@@ -39,7 +34,7 @@ export const Rate = ({
 
   const onClick = (value: number) => {
     if (!disabled) {
-      setValue(value)
+      onChange(value)
     }
   }
 

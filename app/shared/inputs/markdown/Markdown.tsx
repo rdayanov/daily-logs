@@ -2,7 +2,7 @@ import { indentWithTab } from '@codemirror/commands'
 import { markdown } from '@codemirror/lang-markdown'
 import { EditorView, keymap } from '@codemirror/view'
 import { basicSetup } from 'codemirror'
-import { ReactNode, useEffect, useRef, useState } from 'react'
+import { ReactNode, useEffect, useRef } from 'react'
 
 import instructions from './instructions'
 
@@ -11,14 +11,13 @@ import styles from './styles.module.pcss'
 interface MarkdownProps {
   name: string;
   children: ReactNode;
-  onChange?: (markdown: string) => void;
+  onChange: (markdown: string) => void;
   content?: string;
 }
 
 export const Markdown = ({ content = instructions, name, onChange, children }: MarkdownProps) => {
   const textbox = useRef<HTMLDivElement | null>(null)
   const editorView = useRef<EditorView | null>(null)
-  const [doc, updateDoc] = useState(content)
 
   useEffect(() => {
     if (textbox.current && !editorView.current) {
@@ -31,17 +30,13 @@ export const Markdown = ({ content = instructions, name, onChange, children }: M
     }
   }, [])
 
-  useEffect(() => {
-    onChange && onChange(doc)
-  }, [doc, onChange])
-
   function createEditor(parent: HTMLDivElement) {
     return new EditorView({
       doc: content,
       parent: parent,
       extensions: [
         basicSetup,
-        EditorView.updateListener.of((update) => update.docChanged && updateDoc(update.state.doc.toString())),
+        EditorView.updateListener.of((update) => update.docChanged && onChange(update.state.doc.toString())),
         markdown(),
         EditorView.theme({
           '&': {
@@ -73,7 +68,7 @@ export const Markdown = ({ content = instructions, name, onChange, children }: M
            aria-labelledby={ `${ name }-textbox` }></div>
       <input type="hidden"
              name={ `value` }
-             value={ doc }/>
+             value={ content }/>
     </>
 
   )
