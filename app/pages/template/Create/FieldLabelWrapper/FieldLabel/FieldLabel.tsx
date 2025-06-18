@@ -20,7 +20,6 @@ export const FieldLabel = ({ name, children, onChange = noop }: FieldLabelProps)
   const onInput = () => {
     if (input.current && label.current) {
       input.current.value = label.current.innerText
-      onChange(input.current.value)
     }
     setIsEmpty(!!label.current?.innerText && !EMPTY_LABEL.test(label.current.innerText))
   }
@@ -31,6 +30,10 @@ export const FieldLabel = ({ name, children, onChange = noop }: FieldLabelProps)
     }
   }, [input, label])
 
+  const propagateChange = () => {
+    input.current && onChange(input.current.value)
+  }
+
   return (
     <>
       <input type="hidden"
@@ -40,6 +43,7 @@ export const FieldLabel = ({ name, children, onChange = noop }: FieldLabelProps)
            suppressContentEditableWarning={ true }
            ref={ el => (label.current = el) }
            onInput={ onInput }
+           onBlur={ propagateChange }
            className={ `${ styles.label } ${ isEmpty ? styles.labelEmpty : '' }` }>
         { children }
       </div>

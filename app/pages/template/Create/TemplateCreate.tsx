@@ -37,8 +37,7 @@ export const TemplateCreatePage = () => {
             <Rate name="rate"
                   value={ +field.value }
                   onChange={ v => onFieldChange(v, index) }>
-              <FieldLabelWrapper rateCompatible={ field.rateCompatible }
-                                 fieldIndex={ index }>{ field.defaultLabel }</FieldLabelWrapper>
+              <FieldLabelWrapper fieldIndex={ index }>{ field.label }</FieldLabelWrapper>
             </Rate>
           </TemplateField>
         )
@@ -48,8 +47,7 @@ export const TemplateCreatePage = () => {
             <Timespan name="work"
                       value={ field.value as TimespanField['value'] }
                       onChange={ v => onFieldChange(v, index) }>
-              <FieldLabelWrapper rateCompatible={ field.rateCompatible }
-                                 fieldIndex={ index }>{ field.defaultLabel }</FieldLabelWrapper>
+              <FieldLabelWrapper fieldIndex={ index }>{ field.label }</FieldLabelWrapper>
             </Timespan>
           </TemplateField>
         )
@@ -59,8 +57,7 @@ export const TemplateCreatePage = () => {
             <Markdown name="summary"
                       content={ field.value }
                       onChange={ v => onFieldChange(v, index) }>
-              <FieldLabelWrapper rateCompatible={ field.rateCompatible }
-                                 fieldIndex={ index }>{ field.defaultLabel }</FieldLabelWrapper>
+              <FieldLabelWrapper fieldIndex={ index }>{ field.label }</FieldLabelWrapper>
             </Markdown>
           </TemplateField>
         )

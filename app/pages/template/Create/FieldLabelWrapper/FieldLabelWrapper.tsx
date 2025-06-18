@@ -9,17 +9,15 @@ import styles from './styles.module.pcss'
 
 interface FieldLabelWrapperProps {
   children: ReactNode;
-  rateCompatible: boolean;
   fieldIndex: number;
 }
 
-export const FieldLabelWrapper = ({ children, rateCompatible, fieldIndex }: FieldLabelWrapperProps) => {
+export const FieldLabelWrapper = ({ children, fieldIndex }: FieldLabelWrapperProps) => {
   const { state, dispatch } = useContext(TemplateStateContext)
 
-  const ratable = state[fieldIndex].ratable
-  const setRatable = (ratable: boolean) => dispatch({ type: 'update', update: { ratable }, index: fieldIndex })
+  const { rateCompatible, ratable, label } = state[fieldIndex]
 
-  const label = state[fieldIndex].label
+  const setRatable = (ratable: boolean) => dispatch({ type: 'update', update: { ratable }, index: fieldIndex })
   const setLabel = (label: string) => dispatch({ type: 'update', update: { label }, index: fieldIndex })
 
   const [showHandle, setShowHandle] = useState(false)
