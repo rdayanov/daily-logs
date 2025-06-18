@@ -14,18 +14,15 @@
     cursor: pointer;
 }
 
-.rating-toggle:checked::after {
-    content: '[❖]';
-    color: yellow;
+.rating-toggle::after {
+    content: '▁ ▃ ▅';
+    font-size: 0.75rem;
 }
 
-.rating-toggle:hover::after, .rating-toggle:focus::after {
-    content: '[❖]';
-    color: lightgreen;
+.rating-toggle:checked::after {
+    color: lightblue;
 }
 
 .rating-toggle:not(:checked)::after {
-    content: '[ ]';
-    font-size: inherit;
-    color: lightblue;
+    color: lightgrey;
 }
