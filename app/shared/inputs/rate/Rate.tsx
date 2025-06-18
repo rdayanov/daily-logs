@@ -11,6 +11,7 @@ interface RateProps {
   required?: boolean;
   children?: ReactNode;
   hideLabel?: boolean;
+  labelPosition?: 'above' | 'after';
 }
 
 export const Rate = ({
@@ -22,6 +23,7 @@ export const Rate = ({
                        required = false,
                        children,
                        hideLabel,
+                       labelPosition = 'above',
                      }: RateProps) => {
   const controlId = `rate-${ name }`
 
@@ -140,6 +142,13 @@ export const Rate = ({
 
   return (
     <>
+      {
+        !hideLabel && labelPosition === 'above' ?
+          <label htmlFor={ controlId }>
+            { children || name }
+          </label>
+          : <></>
+      }
       <div className={ styles.ratingContainer }>
         {/* eslint-disable-next-line jsx-a11y/aria-activedescendant-has-tabindex */ }
         <div className={ styles.ratingInput }
@@ -200,7 +209,7 @@ export const Rate = ({
           }
         </div>
         {
-          !hideLabel ?
+          !hideLabel && labelPosition === 'after' ?
             <label htmlFor={ controlId }>
               { children || name }
             </label>
