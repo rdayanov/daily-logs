@@ -7,7 +7,7 @@ import { FieldProto, getFieldProto, TemplateField } from '~/entities/fields'
 import { FieldType } from '~/generated/prisma/enums'
 import { AddField } from './AddField'
 import { FieldLabelWrapper } from './FieldLabelWrapper'
-import { reducer, TimespanField, toTemplateField } from './state'
+import { reducer, TemplateStateContext, TimespanField, toTemplateField } from './state'
 import styles from './styles.module.pcss'
 
 export const FIELD_DRAG_EVENT = 'text/daily-logs-drag'
@@ -37,7 +37,8 @@ export const TemplateCreatePage = () => {
             <Rate name="rate"
                   value={ +field.value }
                   onChange={ v => onFieldChange(v, index) }>
-              <FieldLabelWrapper rateCompatible={ field.rateCompatible }>{ field.defaultLabel }</FieldLabelWrapper>
+              <FieldLabelWrapper rateCompatible={ field.rateCompatible }
+                                 fieldIndex={ index }>{ field.defaultLabel }</FieldLabelWrapper>
             </Rate>
           </TemplateField>
         )
@@ -47,7 +48,8 @@ export const TemplateCreatePage = () => {
             <Timespan name="work"
                       value={ field.value as TimespanField['value'] }
                       onChange={ v => onFieldChange(v, index) }>
-              <FieldLabelWrapper rateCompatible={ field.rateCompatible }>{ field.defaultLabel }</FieldLabelWrapper>
+              <FieldLabelWrapper rateCompatible={ field.rateCompatible }
+                                 fieldIndex={ index }>{ field.defaultLabel }</FieldLabelWrapper>
             </Timespan>
           </TemplateField>
         )
@@ -57,7 +59,8 @@ export const TemplateCreatePage = () => {
             <Markdown name="summary"
                       content={ field.value }
                       onChange={ v => onFieldChange(v, index) }>
-              <FieldLabelWrapper rateCompatible={ field.rateCompatible }>{ field.defaultLabel }</FieldLabelWrapper>
+              <FieldLabelWrapper rateCompatible={ field.rateCompatible }
+                                 fieldIndex={ index }>{ field.defaultLabel }</FieldLabelWrapper>
             </Markdown>
           </TemplateField>
         )
@@ -91,7 +94,7 @@ export const TemplateCreatePage = () => {
   }
 
   return (
-    <>
+    <TemplateStateContext.Provider value={ { state, dispatch } }>
       <Form className={ styles.form }
             method="POST"
             navigate={ false }>
@@ -121,6 +124,6 @@ export const TemplateCreatePage = () => {
         <button>Send</button>
       </Form>
 
-    </>
+    </TemplateStateContext.Provider>
   )
 }

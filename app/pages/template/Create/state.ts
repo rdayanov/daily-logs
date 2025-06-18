@@ -1,3 +1,4 @@
+import { createContext } from 'react'
 import { FieldProto, getFieldProto } from '~/entities/fields'
 import { FieldType } from '~/generated/prisma/enums'
 
@@ -12,10 +13,6 @@ export interface TemplateFieldType extends FieldProto {
 export interface TimespanField extends TemplateFieldType {
   type: typeof FieldType.TIMESPAN;
   value: `${ string };${ string }`;
-}
-
-export const isTimespanField = (field: TemplateFieldType): field is TimespanField => {
-  return field.type === FieldType.TIMESPAN
 }
 
 export function toTemplateField(fieldProto: FieldProto): TemplateFieldType {
@@ -71,3 +68,6 @@ export function reducer(state: State, action: Action): State {
     }
   }
 }
+
+export type TemplateStateContextType = { state: State; dispatch: (action: Action) => void; }
+export const TemplateStateContext = createContext<TemplateStateContextType>({} as TemplateStateContextType)

@@ -3,9 +3,10 @@ import styles from './styles.module.pcss'
 interface FieldRatableProps {
   onChange: (value: boolean) => void;
   disabled: boolean;
+  checked: boolean;
 }
 
-export const FieldRatable = ({ onChange, disabled }: FieldRatableProps) => {
+export const FieldRatable = ({ onChange, disabled, checked }: FieldRatableProps) => {
   return (
     <>
       {
@@ -17,6 +18,7 @@ export const FieldRatable = ({ onChange, disabled }: FieldRatableProps) => {
                    name="ratable"
                    className={ styles.ratingToggle }
                    value="true"
+                   checked={ checked }
                    onChange={ (ev) => onChange(ev.target.checked) }/>
       }
     </>
