@@ -27,8 +27,7 @@ export const FieldLabelWrapper = ({ children, fieldIndex }: FieldLabelWrapperPro
   }, [label])
 
   return (
-    <div className={ styles.fieldLabelWrapper }
-         onDragStart={ ev => ev.dataTransfer.setData('text/plain', label) }>
+    <div className={ styles.fieldLabelWrapper }>
       {
         showHandle &&
         <div

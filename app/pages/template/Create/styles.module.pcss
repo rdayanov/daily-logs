@@ -1,6 +1,8 @@
 .form {
     height: 100vh;
     width: 100vw;
+    box-sizing: border-box;
+    overflow-x: hidden;
     display: flex;
     flex-flow: column nowrap;
     align-items: start;
@@ -11,10 +13,18 @@
 
 .drag-handle {
     width: 100%;
-    max-width: fit-content;
 }
 
-.drag-drop-area {
-    height: 1rem;
-    background: lightyellow;
+.drop-placeholder {
+    position: absolute;
+    top: var(--drop-placeholder-pos);
+    height: 0.25rem;
+    background: #2563eb;
+    border-radius: 1px;
+    opacity: .5;
+    pointer-events: none;
+    transition: opacity 0.1s ease;
+    width: calc(100% - 2rem);
+    left: 1rem;
+    z-index: 1000;
 }
