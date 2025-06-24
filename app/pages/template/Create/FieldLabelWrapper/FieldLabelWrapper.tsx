@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useEffect, useState } from 'react'
+import { ReactNode, useContext } from 'react'
 import { noop } from '~/shared/cdk/noop'
 import { Rate } from '~/shared/inputs/rate'
 import { TemplateStateContext } from '../state'
@@ -15,27 +15,17 @@ interface FieldLabelWrapperProps {
 export const FieldLabelWrapper = ({ children, fieldIndex }: FieldLabelWrapperProps) => {
   const { state, dispatch } = useContext(TemplateStateContext)
 
-  const { rateCompatible, ratable, label } = state[fieldIndex]
+  const { rateCompatible, ratable } = state[fieldIndex]
 
   const setRatable = (ratable: boolean) => dispatch({ type: 'update', update: { ratable }, index: fieldIndex })
   const setLabel = (label: string) => dispatch({ type: 'update', update: { label }, index: fieldIndex })
 
-  const [showHandle, setShowHandle] = useState(false)
-
-  useEffect(() => {
-    setShowHandle(/\S/.test(label))
-  }, [label])
-
   return (
-    <div className={ styles.fieldLabelWrapper }
-         onDragStart={ ev => ev.dataTransfer.setData('text/plain', label) }>
-      {
-        showHandle &&
-        <div
-          className={ styles.fieldDragHandle }>
-          ☷
-        </div>
-      }
+    <div className={ styles.fieldLabelWrapper }>
+      <div
+        className={ styles.fieldDragHandle }>
+        ☷
+      </div>
 
       <div className={ styles.fieldLabel }>
         <FieldLabel name="label"
