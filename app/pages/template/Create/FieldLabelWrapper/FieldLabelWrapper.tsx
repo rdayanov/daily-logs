@@ -1,4 +1,4 @@
-import { ReactNode, useContext } from 'react'
+import { useContext } from 'react'
 import { noop } from '~/shared/cdk/noop'
 import { Rate } from '~/shared/inputs/rate'
 import { TemplateStateContext } from '../state'
@@ -8,14 +8,13 @@ import { FieldRatable } from './FieldRatable'
 import styles from './styles.module.pcss'
 
 interface FieldLabelWrapperProps {
-  children: ReactNode;
   fieldIndex: number;
 }
 
-export const FieldLabelWrapper = ({ children, fieldIndex }: FieldLabelWrapperProps) => {
+export const FieldLabelWrapper = ({ fieldIndex }: FieldLabelWrapperProps) => {
   const { state, dispatch } = useContext(TemplateStateContext)
 
-  const { rateCompatible, ratable } = state[fieldIndex]
+  const { rateCompatible, ratable, label } = state[fieldIndex]
 
   const setRatable = (ratable: boolean) => dispatch({ type: 'update', update: { ratable }, index: fieldIndex })
   const setLabel = (label: string) => dispatch({ type: 'update', update: { label }, index: fieldIndex })
@@ -29,7 +28,8 @@ export const FieldLabelWrapper = ({ children, fieldIndex }: FieldLabelWrapperPro
 
       <div className={ styles.fieldLabel }>
         <FieldLabel name="label"
-                    onChange={ setLabel }>{ children }</FieldLabel>
+                    label={ label }
+                    onChange={ setLabel }/>
         <FieldRatable checked={ ratable }
                       onChange={ setRatable }
                       disabled={ !rateCompatible }/>

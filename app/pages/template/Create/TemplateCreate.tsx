@@ -37,7 +37,7 @@ export const TemplateCreatePage = () => {
             <Rate name="rate"
                   value={ +field.value }
                   onChange={ v => onFieldChange(v, index) }>
-              <FieldLabelWrapper fieldIndex={ index }>{ field.label }</FieldLabelWrapper>
+              <FieldLabelWrapper fieldIndex={ index }/>
             </Rate>
           </TemplateField>
         )
@@ -47,7 +47,7 @@ export const TemplateCreatePage = () => {
             <Timespan name="work"
                       value={ field.value as TimespanField['value'] }
                       onChange={ v => onFieldChange(v, index) }>
-              <FieldLabelWrapper fieldIndex={ index }>{ field.label }</FieldLabelWrapper>
+              <FieldLabelWrapper fieldIndex={ index }/>
             </Timespan>
           </TemplateField>
         )
@@ -57,7 +57,7 @@ export const TemplateCreatePage = () => {
             <Markdown name="summary"
                       content={ field.value }
                       onChange={ v => onFieldChange(v, index) }>
-              <FieldLabelWrapper fieldIndex={ index }>{ field.label }</FieldLabelWrapper>
+              <FieldLabelWrapper fieldIndex={ index }/>
             </Markdown>
           </TemplateField>
         )
@@ -100,8 +100,8 @@ export const TemplateCreatePage = () => {
       const dropIndex = insertAfter ? index + 1 : index
 
       const top = insertAfter
-        ? rect.bottom + 8
-        : rect.top - 8
+        ? rect.bottom + 10
+        : rect.top - 10
       setDropPlaceholderPos(`${ top }px`)
 
       setDropPlaceholderIndex(dropIndex)
