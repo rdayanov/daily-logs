@@ -1,3 +1,4 @@
+import { GripVertical, Pencil } from 'lucide-react'
 import { useContext } from 'react'
 import { noop } from '~/shared/cdk/noop'
 import { Rate } from '~/shared/inputs/rate'
@@ -19,20 +20,24 @@ export const FieldLabelWrapper = ({ fieldIndex }: FieldLabelWrapperProps) => {
   const setRatable = (ratable: boolean) => dispatch({ type: 'update', update: { ratable }, index: fieldIndex })
   const setLabel = (label: string) => dispatch({ type: 'update', update: { label }, index: fieldIndex })
 
+  const ratableAction = <FieldRatable checked={ ratable }
+                                      onChange={ setRatable }
+                                      disabled={ !rateCompatible }/>
+  const trailingIcon = <Pencil size={ 24 }/>
+
   return (
     <div className={ styles.fieldLabelWrapper }>
       <div
         className={ styles.fieldDragHandle }>
-        ☷
+        <GripVertical size={ 24 }/>
       </div>
 
       <div className={ styles.fieldLabel }>
         <FieldLabel name="label"
                     label={ label }
-                    onChange={ setLabel }/>
-        <FieldRatable checked={ ratable }
-                      onChange={ setRatable }
-                      disabled={ !rateCompatible }/>
+                    onChange={ setLabel }
+                    trailingIcon={ trailingIcon }
+                    trailingAction={ ratableAction }/>
       </div>
 
       {

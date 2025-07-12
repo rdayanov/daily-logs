@@ -14,15 +14,17 @@
     cursor: pointer;
 }
 
-.rating-toggle::after {
-    content: '▁ ▃ ▅';
-    font-size: 0.75rem;
+.toggle-button {
+    height: 36px;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: 1px solid;
+    align-self: center;
 }
 
-.rating-toggle:checked::after {
-    color: lightblue;
-}
-
-.rating-toggle:not(:checked)::after {
-    color: lightgrey;
+.toggle-button:hover {
+    background: lightgray;
+    cursor: pointer;
 }

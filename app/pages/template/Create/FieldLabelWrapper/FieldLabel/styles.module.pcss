@@ -1,8 +1,50 @@
+.wrapper {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0 1rem;
+    background: aliceblue;
+    border-bottom: 4px solid;
+
+    svg {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+
 .label {
     font-family: monospace;
-    font-size: 1rem;
-    text-decoration: underline;
+    font-size: 1.5rem;
     line-height: 150%;
     font-weight: bold;
+    text-decoration: none;
     border: none;
+    background: inherit;
+}
+
+.trailing-icon {
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
+    display: inline-flex;
+    align-items: flex-end;
+    pointer-events: none;
+}
+
+.trailing-icon-offset {
+    right: 4rem;
+}
+
+.trailing-icon:empty {
+    display: none;
+}
+
+.trailing-action {
+    align-self: center;
+}
+
+.trailing-action:has(input[type="hidden"]) {
+    display: none;
 }

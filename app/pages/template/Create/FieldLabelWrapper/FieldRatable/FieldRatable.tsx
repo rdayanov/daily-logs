@@ -1,3 +1,4 @@
+import { Star, StarOff } from 'lucide-react'
 import styles from './styles.module.pcss'
 
 interface FieldRatableProps {
@@ -14,14 +15,21 @@ export const FieldRatable = ({ onChange, disabled, checked }: FieldRatableProps)
           ? <input type="hidden"
                    name="ratable"
                    value="false"/>
-          : <input type="checkbox"
-                   name="ratable"
-                   className={ styles.ratingToggle }
-                   value="true"
-                   checked={ checked }
-                   onChange={ (ev) => onChange(ev.target.checked) }/>
+          :
+          <>
+            <button type="button"
+                    className={ styles.toggleButton }
+                    onClick={ () => (onChange(!checked)) }>
+              { checked ? <Star/> : <StarOff/> }
+              <input type="checkbox"
+                     name="ratable"
+                     className={ styles.ratingToggle }
+                     value="true"
+                     checked={ checked }
+                     onChange={ (ev) => onChange(ev.target.checked) }/>
+            </button>
+          </>
       }
     </>
-
   )
 }
