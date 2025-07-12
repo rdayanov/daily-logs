@@ -19,6 +19,7 @@ export const FieldLabelWrapper = ({ fieldIndex }: FieldLabelWrapperProps) => {
 
   const setRatable = (ratable: boolean) => dispatch({ type: 'update', update: { ratable }, index: fieldIndex })
   const setLabel = (label: string) => dispatch({ type: 'update', update: { label }, index: fieldIndex })
+  const deleteField = (index: number) => dispatch({ type: 'delete', index })
 
   const ratableAction = <FieldRatable checked={ ratable }
                                       onChange={ setRatable }
@@ -36,6 +37,7 @@ export const FieldLabelWrapper = ({ fieldIndex }: FieldLabelWrapperProps) => {
         <FieldLabel name="label"
                     label={ label }
                     onChange={ setLabel }
+                    onDelete={ () => deleteField(fieldIndex) }
                     trailingIcon={ trailingIcon }
                     trailingAction={ ratableAction }/>
       </div>

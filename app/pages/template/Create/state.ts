@@ -41,7 +41,8 @@ export type State = TemplateFieldType[]
 export type Action =
   { type: 'add', fieldType: FieldType } |
   { type: 'insert', insertAt: number, from: number } |
-  { type: 'update', update: Partial<TemplateFieldType>, index: number }
+  { type: 'update', update: Partial<TemplateFieldType>, index: number } |
+  { type: 'delete', index: number }
 
 export function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -65,6 +66,9 @@ export function reducer(state: State, action: Action): State {
     case 'update': {
       const field = { ...state[action.index], ...action.update }
       return [...state.slice(0, action.index), field, ...state.slice(action.index + 1)]
+    }
+    case 'delete': {
+      return [...state.slice(0, action.index), ...state.slice(action.index + 1)]
     }
   }
 }
