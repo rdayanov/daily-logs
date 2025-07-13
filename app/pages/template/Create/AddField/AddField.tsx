@@ -23,7 +23,10 @@ export const AddField = ({ onFieldSelected }: AddFieldProps) => {
             } }
             value={ fieldToAdd }
             className={ styles.addNewFieldButton }>
-      <option value={ 'default' }>+</option>
+      <option value={ 'default' }
+              aria-label="Cencel">Add field
+      </option>
+      <hr/>
       <option value={ FieldType.RATE }>Rating</option>
       <option value={ FieldType.TIMESPAN }>Timespan</option>
       <option value={ FieldType.TEXTBOX }>Textbox</option>

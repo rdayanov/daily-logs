@@ -1,5 +1,9 @@
 .add-new-field-button {
-    appearance: none;
-    text-align: center;
-    width: 1.75rem;
+    &, &::picker(select) {
+        appearance: base-select;
+    }
+
+    option {
+        font-size: 1rem;
+    }
 }
