@@ -28,3 +28,27 @@
     left: 1rem;
     z-index: 1000;
 }
+
+.send-button {
+    font-family: monospace;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    color: var(--color-text-primary-contrast);
+    background: var(--color-bg-accent-default);
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+        background: var(--color-bg-accent-hover);
+    }
+
+    &:active {
+        background: var(--color-bg-accent-active);
+    }
+
+    &:disabled {
+        color: var(--color-text-primary-disabled);
+        background: var(--color-bg-accent-disabled);
+        cursor: default;
+    }
+}

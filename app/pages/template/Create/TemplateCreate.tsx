@@ -151,7 +151,7 @@ export const TemplateCreatePage = () => {
 
         <AddField onFieldSelected={ addFieldToTemplate }/>
 
-        <button>Send</button>
+        <button className={ styles.sendButton }>Send</button>
       </Form>
 
     </TemplateStateContext.Provider>

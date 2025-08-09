@@ -1,0 +1,17 @@
+@import url('../../node_modules/open-color/open-color.css');
+
+:root {
+    --color-bg-accent-default: var(--oc-blue-6);
+    --color-bg-accent-hover: var(--oc-blue-7);
+    --color-bg-accent-active: var(--oc-blue-8);
+    --color-bg-accent-disabled: var(--oc-blue-1);
+    --color-bg-accent-surface: var(--oc-blue-0);
+    --color-bg-primary-default: var(--oc-gray-2);
+    --color-bg-primary-hover: var(--oc-gray-4);
+    --color-bg-primary-active: var(--oc-gray-4);
+    --color-bg-primary-surface: var(--oc-gray-0);
+    --color-text-primary-body: var(--oc-gray-8);
+    --color-text-primary-el: var(--oc-gray-7);
+    --color-text-primary-contrast: var(--oc-gray-0);
+    --color-text-primary-disabled: var(--oc-gray-5);
+}
