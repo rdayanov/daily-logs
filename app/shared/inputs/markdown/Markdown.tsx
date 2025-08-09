@@ -1,7 +1,7 @@
 import { indentWithTab } from '@codemirror/commands'
 import { markdown } from '@codemirror/lang-markdown'
 import { EditorView, keymap } from '@codemirror/view'
-import { basicSetup } from 'codemirror'
+import { minimalSetup } from 'codemirror'
 import { ReactNode, useEffect, useRef } from 'react'
 
 import instructions from './instructions'
@@ -35,7 +35,7 @@ export const Markdown = ({ content = instructions, name, onChange, children }: M
       doc: content,
       parent: parent,
       extensions: [
-        basicSetup,
+        minimalSetup,
         EditorView.updateListener.of((update) => update.docChanged && onChange(update.state.doc.toString())),
         markdown(),
         EditorView.theme({
@@ -43,8 +43,7 @@ export const Markdown = ({ content = instructions, name, onChange, children }: M
             fontSize: '14px',
           },
           '.cm-content': {
-            padding: '20px',
-            minHeight: '460px',
+            maxHeight: '460px',
           },
           '.cm-focused': {
             outline: 'none',
